@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+    <meta charset="UTF-8">
+    <title>ניהול משימות</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+</head>
+<body>
+    <div class="sidebar">
+        <div class="user-menu">
+            <div class="user-icon" onclick="toggleUserMenu()">⚙️</div>
+            <div class="user-dropdown" id="userDropdown">
+                <a href="#">הפרופיל שלי</a>
+                <a href="#">הגדרות</a>
+                <a href="#">התנתק</a>
+            </div>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('shopping_list') }}">🛒 רשימת קניות</a></li>
+                <li><a href="#">🗓️ יומן</a></li>
+                <li><a href="#">📝 פתקים</a></li>
+                <li><a href="#">📌 משימות לטווח ארוך</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <div class="main-content">
+        <h1>הוספת משימה</h1>
+        <form method="POST">
+            <label for="task">הזן משימה:</label><br>
+            <input type="text" id="task" name="task" required><br><br>
+            <input type="submit" value="הוסף משימה">
+        </form>
+
+        {% if message %}
+            <div id="message-box" class="message">
+                {{ message.task.type }} - {{ message.task.content }}
+            </div>
+        {% endif %}
+    </div>
+
+    <script>
+        window.onload = function() {
+            const messageBox = document.getElementById('message-box');
+            if (messageBox) {
+                setTimeout(() => {
+                    messageBox.style.display = 'none';
+                }, 5000);
+            }
+        }
+
+        function toggleUserMenu() {
+            const dropdown = document.getElementById('userDropdown');
+            dropdown.classList.toggle('show');
+        }
+    </script>
+</body>
+</html>

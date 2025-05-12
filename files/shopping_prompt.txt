@@ -1,0 +1,6 @@
+Analyze the following shopping list and extract each product mentioned along with its quantity.
+A product can consist of multiple words, including units like "pack", "bottle", "box", etc., when they are part of the product description (e.g., "two packs of sausages" should be treated as one product with quantity 2).
+Ignore words that are not products. If no quantity is given, assume the quantity is 1.
+Return the results as a list of tuples in the format: (product, quantity).
+Respond only with the list.
+Text: [insert shopping list text]

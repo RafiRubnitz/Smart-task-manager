@@ -1,0 +1,59 @@
+body {
+    direction: rtl;
+    font-family: Arial, sans-serif;
+    background-color: #f7f7f7;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+}
+
+ul#shopping-list {
+    list-style-type: none;
+    padding: 0;
+    max-width: 500px;
+    margin: auto;
+}
+
+ul#shopping-list li {
+    background-color: #fff;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+li.checked {
+    text-decoration: line-through;
+    background-color: #d4edda;
+}
+
+.check-button,
+.delete-button {
+    margin-right: 10px;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.check-button {
+    background-color: #28a745;
+    color: white;
+}
+
+.delete-button {
+    background-color: #dc3545;
+    color: white;
+}
+
+/* חדש: עבור פריטים לא פעילים */
+.inactive {
+    text-decoration: line-through;
+    opacity: 0.5;
+}

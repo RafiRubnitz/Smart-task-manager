@@ -1,0 +1,156 @@
+body {
+    direction: rtl;
+    font-family: Arial, sans-serif;
+    background-color: #f0f2f5;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 220px;
+    background-color: #2c3e50;
+    color: #ecf0f1;
+    min-height: 100vh;
+    padding-top: 20px;
+    position: relative;
+}
+
+/* Sidebar - עדכון */
+.sidebar nav {
+    margin-top: 80px; /* מזיז את הכפתורים כלפי מטה */
+}
+
+.sidebar nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar nav ul li {
+    padding: 15px 20px;
+}
+
+.sidebar nav ul li a {
+    color: #ecf0f1;
+    text-decoration: none;
+    display: block;
+    font-size: 1.1em;
+    transition: background-color 0.2s;
+}
+
+.sidebar nav ul li a:hover {
+    background-color: #34495e;
+    border-radius: 8px;
+}
+
+/* User Menu */
+.user-menu {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.user-icon {
+    cursor: pointer;
+    background-color: #3498db;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    color: white;
+    text-align: center;
+    line-height: 40px;
+    font-size: 20px;
+}
+
+.user-dropdown {
+    display: none;
+    position: absolute;
+    top: 50px;
+    right: 0;
+    background-color: white;
+    color: #2c3e50;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    overflow: hidden;
+    min-width: 150px;
+    z-index: 100;
+}
+
+.user-dropdown a {
+    display: block;
+    padding: 10px;
+    text-decoration: none;
+    color: #2c3e50;
+    font-size: 0.95em;
+}
+
+.user-dropdown a:hover {
+    background-color: #f1f1f1;
+}
+
+.user-dropdown.show {
+    display: block;
+}
+
+
+/* Main content - עדכון למרכז */
+.main-content {
+    flex: 1;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* מרכז אופקית */
+}
+
+h1 {
+    color: #2c3e50;
+}
+
+/* טופס */
+form {
+    background-color: #fff;
+    padding: 20px 30px;
+    margin-top: 60px; /* ריווח מהכותרת */
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    width: 300px;
+}
+
+input[type="text"],
+input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 8px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1em;
+    box-sizing: border-box;
+}
+
+input[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    margin-top: 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+input[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+/* Message Box */
+.message {
+    background-color: #dff0d8;
+    color: #3c763d;
+    padding: 15px;
+    margin: 15px 0;
+    border: 1px solid #d6e9c6;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 18px;
+    width: 80%;
+}

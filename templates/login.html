@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+    <meta charset="UTF-8">
+    <title>התחברות</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-box">
+            <h1 class="logo">🛡️ המערכת שלי</h1>
+            <h2>ברוך הבא, אנא התחבר</h2>
+
+            <form method="POST">
+                <label for="email">אימייל:</label>
+                <input type="email" id="email" name="email" required>
+
+                <label for="password">סיסמה:</label>
+                <input type="password" id="password" name="password" required>
+
+                {% if error %}
+                <p class="error">{{ error }}</p>
+                {% endif %}
+
+                <input type="submit" value="התחבר">
+
+                <div class="form-footer">
+                    <a href="#">שכחת סיסמה?</a> | <a href="{{ url_for('new_user') }}">צור חשבון חדש</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>

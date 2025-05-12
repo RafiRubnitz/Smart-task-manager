@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+    <meta charset="UTF-8">
+    <title>רשימת קניות</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='shopping_list.css') }}">
+</head>
+<body>
+    <h1>רשימת קניות</h1>
+    <ul id="shopping-list">
+    {% for id, user_id, product, quantity, is_active in items %}
+    <li data-task-id="{{ id }}" data-product="{{ product }}" data-quantity="{{ quantity }}"
+        class="{% if not is_active %}inactive{% endif %}">
+        <span class="item-name">{{ product }}</span> - <span class="quantity">{{ quantity }}</span>
+        <button class="check-button">✔</button>
+        <button class="delete-button">🗑</button>
+    </li>
+    {% endfor %}
+    </ul>
+
+    <script>
+        document.querySelectorAll(".check-button").forEach(btn => {
+            btn.addEventListener("click", () => {
+                const li = btn.parentElement;
+                li.classList.toggle("checked");
+
+                const taskId = li.dataset.taskId;
+                const product = li.dataset.product;
+                const quantity = li.dataset.quantity;
+                const isCompleted = li.classList.contains("checked");
+
+                fetch("/shopping_list/complete_task", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        task_id: taskId,
+                        product: product,
+                        quantity: quantity,
+                        completed: !isCompleted
+                    })
+                })
+                .then(res => res.json())
+                .then(data => {
+                    console.log("עודכן בהצלחה", data);
+                });
+            });
+        });
+
+        document.querySelectorAll(".delete-button").forEach(btn => {
+            btn.addEventListener("click", () => {
+                const li = btn.parentElement;
+
+                const product = li.dataset.product;
+                 fetch("/shopping_list/remove_task", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        product: product,
+                    })
+                })
+                .then(res => res.json())
+                .then(data => {
+                    console.log("עודכן בהצלחה", data);
+                });
+                li.remove();
+            });
+        });
+    </script>
+
+</body>
+</html>

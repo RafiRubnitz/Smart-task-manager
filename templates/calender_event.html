@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+    <meta charset="UTF-8">
+    <title>יומן אירועים</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='calender_event.css') }}">
+</head>
+<body>
+    <h1>יומן אירועים</h1>
+    <div class="calendar-container">
+        <div class="calendar" id="calendar"></div>
+        <div class="events-list" id="events-list">
+            <h2>אירועים ליום <span id="selected-date">---</span></h2>
+            <div id="events-container"></div>
+        </div>
+    </div>
+
+    <script>
+        let events = {};
+
+        async function fetchEvents() {
+            const response = await fetch('/api/events');
+            events = await response.json();
+        }
+
+        function generateCalendar(year, month) {
+            const calendar = document.getElementById('calendar');
+            const today = new Date();
+            const date = new Date(year, month, 1);
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+            calendar.innerHTML = '';
+
+            // רווחים להתחלה
+            for (let i = 0; i < date.getDay(); i++) {
+                calendar.appendChild(document.createElement('div'));
+            }
+
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dayCell = document.createElement('div');
+                const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                dayCell.innerText = day;
+
+                if (day === today.getDate() && month === today.getMonth()) {
+                    dayCell.classList.add('today');
+                }
+
+                dayCell.addEventListener('click', () => showEvents(dateStr));
+                calendar.appendChild(dayCell);
+            }
+        }
+
+        function showEvents(dateStr) {
+            document.getElementById('selected-date').innerText = dateStr;
+            const container = document.getElementById('events-container');
+            container.innerHTML = '';
+
+            const dayEvents = events[dateStr] || [];
+            if (dayEvents.length === 0) {
+                container.innerHTML = '<p>אין אירועים ליום זה.</p>';
+                return;
+            }
+
+            dayEvents.forEach(event => {
+                const item = document.createElement('div');
+                item.classList.add('event-item');
+                item.innerHTML = `
+                    <div class="event-title">${event.title}</div>
+                    ${event.is_all_day ? '<div class="event-time">כל היום</div>' : `<div class="event-time">${event.time}</div>`}
+                    ${event.details ? `<div class="event-details">${event.details}</div>` : ''}
+                    <div class="event-priority">עדיפות: ${event.priority}</div>
+                `;
+                container.appendChild(item);
+            });
+        }
+
+        async function init() {
+            await fetchEvents();
+            const today = new Date();
+            generateCalendar(today.getFullYear(), today.getMonth());
+        }
+
+        init();
+    </script>
+</body>
+</html>

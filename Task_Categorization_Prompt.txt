@@ -1,0 +1,15 @@
+Determine the task type described by the text.
+Options: Shopping List, Event, Notes, Long-term Task.
+If the text describes something to buy – it's a Shopping List.
+If it describes something that happens at a specific time or date – it's an Event.
+If it's a short reminder or idea – it's a Note.
+If it's a goal or task for the distant future – it's a Long-term Task.
+
+Respond in the format:
+Task Type: [task type]
+
+Text: Buy milk and bread
+
+(Expected output:)
+Task Type: Shopping List
+
