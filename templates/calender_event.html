@@ -16,12 +16,24 @@
     </div>
 
     <script>
+        // יצירת מילון של אירועים מקובצים לפי תאריך
+        const rawEvents = {{ events | tojson }};
         let events = {};
 
-        async function fetchEvents() {
-            const response = await fetch('/api/events');
-            events = await response.json();
-        }
+        rawEvents.forEach(e => {
+            const date = new Date(e.datetime).toISOString().split('T')[0];
+            if (!events[date]) {
+                events[date] = [];
+            }
+
+            events[date].push({
+                title: e.title,
+                time: e.is_all_day ? null : new Date(e.datetime).toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'}),
+                is_all_day: e.is_all_day,
+                priority: e.priority,
+                details: e.details || ""
+            });
+        });
 
         function generateCalendar(year, month) {
             const calendar = document.getElementById('calendar');
@@ -45,7 +57,14 @@
                     dayCell.classList.add('today');
                 }
 
-                dayCell.addEventListener('click', () => showEvents(dateStr));
+                dayCell.addEventListener('click', () => {
+
+                    document.querySelectorAll('.calendar div').forEach(cell => cell.classList.remove('selected'));
+
+                    dayCell.classList.add('selected');
+
+                    showEvents(dateStr);
+                });
                 calendar.appendChild(dayCell);
             }
         }
@@ -74,8 +93,8 @@
             });
         }
 
-        async function init() {
-            await fetchEvents();
+        // אתחול הדף
+        function init() {
             const today = new Date();
             generateCalendar(today.getFullYear(), today.getMonth());
         }

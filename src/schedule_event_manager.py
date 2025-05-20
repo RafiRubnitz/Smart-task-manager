@@ -43,7 +43,7 @@ class ScheduleEventDB:
         self.create_table()
 
     def insert_event(self, task_wrapper: dict):
-        event = task_wrapper["event"]
+        event = task_wrapper["content"]["event"]
         new_event = ScheduleEvent(
             user_id=task_wrapper["user_id"],
             title=event["title"],

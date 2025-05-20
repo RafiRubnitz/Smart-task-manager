@@ -6,8 +6,9 @@ from src.files import FileHandler
 from src.login_manager import LoginManager
 from src.shopping_list import ShoppingDateBase
 from src.task_process import TaskProcess
-from src.data_base import DataBase
+from src.schedule_event_manager import ScheduleEventDB
 from config.db import SessionLocal
+
 app = Flask(__name__)
 app.secret_key = "my-secret=key"
 
@@ -48,7 +49,8 @@ def shopping_list():
 
 @app.route("/events")
 def events():
-    pass
+    events = event_manager.get_events(session["user_id"])
+    return render_template("calender_event.html",events=events)
 
 @app.route("/note")
 def note():
@@ -118,5 +120,10 @@ if __name__ == '__main__':
     db_session = SessionLocal()
     login_manager = LoginManager(db_session)
     shopping_manager = ShoppingDateBase(db_session)
-    task = TaskProcess(client,file_handler,login_manager,shopping_manager)
+    event_manager = ScheduleEventDB(db_session)
+    task = TaskProcess(client,file_handler,
+                       login_manager=login_manager,
+                       shopping_manager=shopping_manager,
+                       event_manager=event_manager)
+
     app.run(debug=True)

@@ -4,11 +4,12 @@ import json
 
 class TaskProcess:
 
-    def __init__(self,llm,file_handler,login_manager,shopping_manager):
+    def __init__(self,llm,file_handler,**kwargs):
         self.llm = llm
         self.file_handler = file_handler
-        self.login_manager = login_manager
-        self.shopping_manager = shopping_manager
+        self.login_manager = kwargs.get("login_manager")
+        self.shopping_manager = kwargs.get("shopping_manager")
+        self.event_manager = kwargs.get("event_manager")
 
     def get_task_response(self,task:str,user_id:int) ->dict:
         task_type = self.llm.chat(task,self.file_handler.get_info("Task_Categorization_Prompt.txt"))
@@ -19,9 +20,8 @@ class TaskProcess:
 
         if "event".lower() in task_type.lower():
             task_content = self._event_process(task)
-            # self.event_manager.insert_new_event(task_wrapper={"user_id" : user_id,"content" : task_content})
+            self.event_manager.insert_event(task_wrapper={"user_id" : user_id,"content" : task_content})
 
-        print(task_content,type(task_content))
         return {"type" : task_type,"content" : task_content}
 
     def _shopping_process(self,task:str):
